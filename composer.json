@@ -1,0 +1,45 @@
+{
+    "name": "Betalectic/neptune",
+    "description": "Notification Helpers for Neptune",
+    "keywords": [
+        "Notifications",
+    ],
+    "homepage": "https://github.com/Betalectic/neptune",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rajiv Seelam",
+            "email": "rajiv@betalectic.com",
+            "homepage": "https://betalectic.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.4",
+        "orchestra/testbench": "~3.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Betalectic\\Neptune\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Betalectic\\Neptune\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Betalectic\\Neptune\\NeptuneServiceProvider"
+            ]
+        }
+    }
+}

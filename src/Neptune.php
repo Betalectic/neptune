@@ -33,7 +33,7 @@ class Neptune
      *
      * @return void
      */
-    public function fire($notificationIdentifier, $identifier = "uuid")
+    public function fire($notificationIdentifier, $identifier = "slug")
     {
         // Log::info("Fire");
 

@@ -35,7 +35,7 @@ class NeptuneChannel
 
         
         if(isset($notification->notificationSlug) && $notification->notificationSlug != "" && !is_null($notification->notificationSlug)){
-            $neptune->fire($notification->notificationSlug, 'slug');
+            $neptune->fire($notification->notificationSlug);
         }
 
     }

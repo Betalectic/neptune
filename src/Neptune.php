@@ -24,7 +24,7 @@ class Neptune
         $this->createEvent = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/events";
         $this->getAppNotificatiosUrl = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/app-notifications";
         $this->readAppNotificatiosUrl = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/app-notifications/read";
-        readAppNotificatiosUrl
+        
 
         $this->payload = $payload;
         $this->recipients = $recipients;

@@ -21,14 +21,17 @@ class Neptune
 
         $this->envrionmentUUID =  config('neptune.env');
 
-        $this->createEvent =  config('neptune.endpoint')."/api/teams/".config('neptune.team')."/events";
+        $this->createEvent = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/events";
+        $this->getAppNotificatiosUrl = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/app-notifications";
+        $this->readAppNotificatiosUrl = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/app-notifications/read";
+        
 
         $this->payload = $payload;
         $this->recipients = $recipients;
     }
 
 
-        /**
+    /**
      * Execute the job.
      *
      * @return void
@@ -59,6 +62,25 @@ class Neptune
         $jsonResponse = $response->json();
 
         // Log::info($jsonResponse);
+
+        return $jsonResponse;
+    }
+
+
+    public function getAppNotifications($payload)
+    {
+        $response = $this->client->get($this->getAppNotificatiosUrl, $payload);
+
+        $jsonResponse = $response->json();
+
+        return $jsonResponse;
+    }
+
+    public function readAppNotifications($payload)
+    {
+        $response = $this->client->post($this->readAppNotificatiosUrl, $payload);
+
+        $jsonResponse = $response->json();
 
         return $jsonResponse;
     }

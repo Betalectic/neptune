@@ -12,7 +12,7 @@ class Neptune
     public $payload;
     public $recipients;
 
-    public function __construct($payload, $recipients)
+    public function __construct($payload = [], $recipients = [])
     {
         $this->client = Http::withHeaders([
             'Accept' => 'application/json',
@@ -67,18 +67,18 @@ class Neptune
     }
 
 
-    public function getAppNotifications($payload)
+    public function getAppNotifications()
     {
-        $response = $this->client->get($this->getAppNotificatiosUrl, $payload);
+        $response = $this->client->get($this->getAppNotificatiosUrl, $this->payload);
 
         $jsonResponse = $response->json();
 
         return $jsonResponse;
     }
 
-    public function readAppNotifications($payload)
+    public function readAppNotifications()
     {
-        $response = $this->client->post($this->readAppNotificatiosUrl, $payload);
+        $response = $this->client->post($this->readAppNotificatiosUrl, $this->payload);
 
         $jsonResponse = $response->json();
 

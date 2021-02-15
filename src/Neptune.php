@@ -12,7 +12,7 @@ class Neptune
     public $payload;
     public $recipients;
 
-    public function __construct($payload, $recipients)
+    public function __construct($payload = [], $recipients = [])
     {
         $this->client = Http::withHeaders([
             'Accept' => 'application/json',
@@ -21,14 +21,17 @@ class Neptune
 
         $this->envrionmentUUID =  config('neptune.env');
 
-        $this->createEvent =  config('neptune.endpoint')."/api/teams/".config('neptune.team')."/events";
+        $this->createEvent = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/events";
+        $this->getAppNotificatiosUrl = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/app-notifications";
+        $this->readAppNotificatiosUrl = config('neptune.endpoint')."/api/teams/".config('neptune.team')."/app-notifications/read";
+        
 
         $this->payload = $payload;
         $this->recipients = $recipients;
     }
 
 
-        /**
+    /**
      * Execute the job.
      *
      * @return void
@@ -59,6 +62,25 @@ class Neptune
         $jsonResponse = $response->json();
 
         // Log::info($jsonResponse);
+
+        return $jsonResponse;
+    }
+
+
+    public function getAppNotifications()
+    {
+        $response = $this->client->get($this->getAppNotificatiosUrl, $this->payload);
+
+        $jsonResponse = $response->json();
+
+        return $jsonResponse;
+    }
+
+    public function readAppNotifications()
+    {
+        $response = $this->client->post($this->readAppNotificatiosUrl, $this->payload);
+
+        $jsonResponse = $response->json();
 
         return $jsonResponse;
     }

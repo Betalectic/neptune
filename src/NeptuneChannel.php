@@ -21,7 +21,7 @@ class NeptuneChannel
 
         $recipients = [
             [
-                'name' => $notifiable->name, 'email' => $notifiable->email
+                'name' => $notifiable->name, 'email' => $notifiable->email, 'mobile' => $notifiable->mobile
             ]
         ];
 

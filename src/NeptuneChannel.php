@@ -19,10 +19,22 @@ class NeptuneChannel
     {
         $payload = $notification->toNeptune($notifiable);
 
+        $recipient = [];
+
+        if(isset($notifiable->name)){
+            $recipient['name'] = $notifiable->name;
+        }
+
+        if(isset($notifiable->email)){
+            $recipient['email'] = $notifiable->email;
+        }
+
+        if(isset($notifiable->mobile)){
+            $recipient['mobile'] = $notifiable->mobile;
+        }
+
         $recipients = [
-            [
-                'name' => $notifiable->name, 'email' => $notifiable->email, 'mobile' => $notifiable->mobile
-            ]
+            $recipient
         ];
 
         // $payload['name'] = $notifiable->name;

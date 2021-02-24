@@ -23,17 +23,12 @@ class NeptuneChannel
 
         $recipients = [];
 
-
         if (!empty($notifiableArray[0]) && is_array($notifiableArray[0])) {
             foreach ($notifiableArray as $key => $recipient) {
-                array_push($recipients, $recipient);
+                array_push($recipients, $this->getRecipientInfo((object)$recipient));
             }
         } else {
-            $recipients = [
-                [
-                    'name' => $notifiable->name, 'email' => $notifiable->email
-                ]
-            ];
+            array_push($recipients, $this->getRecipientInfo($notifiable));            
         }
 
 
@@ -48,5 +43,30 @@ class NeptuneChannel
             $neptune->fire($notification->notificationSlug);
         }
 
+    }
+
+    public function getRecipientInfo($recipient) {
+        $data = [];
+        if (isset($recipient->name)){
+            $data['name'] = $recipient->name;
+        }
+
+        if (isset($recipient->email)){
+            $data['email'] = $recipient->email;
+        }
+
+        if (isset($recipient->mobile)){
+            $data['mobile'] = $recipient->mobile;
+        }
+
+        if (isset($recipient->cc)){
+            $data['cc'] = $recipient->cc;
+        }
+
+        if (isset($recipient->bcc)){
+            $data['bcc'] = $recipient->bcc;
+        }
+
+        return $data;
     }
 }

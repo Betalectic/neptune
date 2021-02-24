@@ -18,14 +18,24 @@ class NeptuneChannel
     public function send($notifiable, Notification $notification)
     {
         $payload = $notification->toNeptune($notifiable);
+        
+        $notifiableArray = (array) $notifiable;
 
-        $recipients = [
-            [
-                'name' => $notifiable->name, 'email' => $notifiable->email
-            ]
-        ];
+        $recipients = [];
 
-        // $payload['name'] = $notifiable->name;
+
+        if (!empty($notifiableArray[0]) && is_array($notifiableArray[0])) {
+            foreach ($notifiableArray as $key => $recipient) {
+                array_push($recipients, $recipient);
+            }
+        } else {
+            $recipients = [
+                [
+                    'name' => $notifiable->name, 'email' => $notifiable->email
+                ]
+            ];
+        }
+
 
         $neptune = new Neptune($payload, $recipients);
 

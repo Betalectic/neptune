@@ -18,26 +18,19 @@ class NeptuneChannel
     public function send($notifiable, Notification $notification)
     {
         $payload = $notification->toNeptune($notifiable);
+        
+        $notifiableArray = (array) $notifiable;
 
-        $recipient = [];
+        $recipients = [];
 
-        if(isset($notifiable->name)){
-            $recipient['name'] = $notifiable->name;
+        if (!empty($notifiableArray[0]) && is_array($notifiableArray[0])) {
+            foreach ($notifiableArray as $key => $recipient) {
+                array_push($recipients, $this->getRecipientInfo((object)$recipient));
+            }
+        } else {
+            array_push($recipients, $this->getRecipientInfo($notifiable));            
         }
 
-        if(isset($notifiable->email)){
-            $recipient['email'] = $notifiable->email;
-        }
-
-        if(isset($notifiable->mobile)){
-            $recipient['mobile'] = $notifiable->mobile;
-        }
-
-        $recipients = [
-            $recipient
-        ];
-
-        // $payload['name'] = $notifiable->name;
 
         $neptune = new Neptune($payload, $recipients);
 
@@ -50,5 +43,30 @@ class NeptuneChannel
             $neptune->fire($notification->notificationSlug);
         }
 
+    }
+
+    public function getRecipientInfo($recipient) {
+        $data = [];
+        if (isset($recipient->name)){
+            $data['name'] = $recipient->name;
+        }
+
+        if (isset($recipient->email)){
+            $data['email'] = $recipient->email;
+        }
+
+        if (isset($recipient->mobile)){
+            $data['mobile'] = $recipient->mobile;
+        }
+
+        if (isset($recipient->cc)){
+            $data['cc'] = $recipient->cc;
+        }
+
+        if (isset($recipient->bcc)){
+            $data['bcc'] = $recipient->bcc;
+        }
+
+        return $data;
     }
 }
